@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: nginx-app
+  name: nginx-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: nginx-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    mmetadata:
+      labels:
+        run: nginx-app
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-app
+        ports:
+        - containerPort: 90
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
